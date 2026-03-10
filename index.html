@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AvoLush – Premium Avocado Yogurt</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        :root {
+            --avocado-green: #6B8E23;
+            --avocado-light: #9ACD32;
+            --avocado-cream: #F5F5DC;
+            --avocado-pale: #E8F5E9;
+            --avocado-dark: #4A6741;
+            --white: #FFFFFF;
+            --text-dark: #2C3E2D;
+            --text-light: #6B7280;
+            --gradient-hero: linear-gradient(135deg, #E8F5E9 0%, #C8E6C9 50%, #F5F5DC 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--text-dark);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        /* Loading Animation */
+        .loader {
+            position: fixed;
+            inset: 0;
+            background: var(--avocado-pale);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+
+        .loader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loader-avocado {
+            width: 80px;
+            height: 80px;
+            background: var(--avocado-green);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            animation: loaderPulse 1.5s ease-in-out infinite;
+            position: relative;
+        }
+
+        .loader-avocado::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: #8B4513;
+            border-radius: 50%;
+        }
+
+        @keyframes loaderPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            50% { transform: scale(1.1) rotate(180deg); }
+        }
+
+        /* Navigation Animations */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem 5%;
+            box-shadow: 0 2px 20px rgba(107, 142, 35, 0.1);
+            transform: translateY(-100%);
+            animation: slideDown 0.8s ease forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--avocado-dark);
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05) rotate(-2deg);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-hero);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links li {
+            opacity: 0;
+            animation: fadeInUp 0.5s ease forwards;
+        }
+
+        .nav-links li:nth-child(1) { animation-delay: 0.7s; }
+        .nav-links li:nth-child(2) { animation-delay: 0.8s; }
+        .nav-links li:nth-child(3) { animation-delay: 0.9s; }
+        .nav-links li:nth-child(4) { animation-delay: 1s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--avocado-green);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--avocado-green);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .order-btn {
+            background: var(--avocado-green);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 0.5s ease forwards 1.1s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .order-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .order-btn:hover::before {
+            left: 100%;
+        }
+
+        .order-btn:hover {
+            background: var(--avocado-dark);
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(107, 142, 35, 0.3);
+        }
+
+        .mobile-menu {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--avocado-dark);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu:hover {
+            transform: rotate(90deg);
+        }
+
+        /* Hero Section with Parallax */
+        .hero {
+            margin-top: 80px;
+            min-height: 100vh;
+            background: var(--gradient-hero);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 600px;
+            height: 600px;
+            background: rgba(154, 205, 50, 0.1);
+            border-radius: 50%;
+            animation: floatBubble 20s infinite ease-in-out;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            left: -5%;
+            width: 400px;
+            height: 400px;
+            background: rgba(107, 142, 35, 0.05);
+            border-radius: 50%;
+            animation: floatBubble 15s infinite ease-in-out reverse;
+        }
+
+        @keyframes floatBubble {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(30px, -30px) scale(1.1); }
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            opacity: 0;
+            animation: slideInLeft 1s ease forwards 0.8s;
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: var(--avocado-green);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            font-size: 0.9rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(107, 142, 35, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(107, 142, 35, 0); }
+        }
+
+        .hero-content h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 1s;
+        }
+
+        .hero-content h1 span {
+            color: var(--avocado-green);
+            display: block;
+            font-size: 2.5rem;
+            margin-top: 0.5rem;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 1.2s;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 1.4s;
+        }
+
+        .btn-primary {
+            background: var(--avocado-green);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(107, 142, 35, 0.3);
+            border: none;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeInUp 0.8s ease forwards 1.6s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .btn-primary:active::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(107, 142, 35, 0.4);
+        }
+
+        .btn-primary:hover i {
+            animation: bounceRight 0.6s infinite;
+        }
+
+        @keyframes bounceRight {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(5px); }
+        }
+
+        .hero-image {
+            position: relative;
+            text-align: center;
+            opacity: 0;
+            animation: slideInRight 1s ease forwards 1s;
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px) rotate(10deg);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0) rotate(0deg);
+            }
+        }
+
+        .hero-image img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+            transition: all 0.5s ease;
+            animation: heroFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0) rotate(-1deg); }
+            50% { transform: translateY(-15px) rotate(1deg); }
+        }
+
+        .hero-image:hover img {
+            transform: scale(1.05) rotate(0deg);
+            box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+        }
+
+        .floating-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+        }
+
+        .float-el {
+            position: absolute;
+            background: rgba(255,255,255,0.9);
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: var(--avocado-dark);
+            animation: floatAround 6s ease-in-out infinite;
+        }
+
+        .float-el:nth-child(1) {
+            top: 10%;
+            left: -10%;
+            animation-delay: 0s;
+        }
+
+        .float-el:nth-child(2) {
+            bottom: 20%;
+            right: -5%;
+            animation-delay: 2s;
+        }
+
+        @keyframes floatAround {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s ease;
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Stagger children */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .stagger-children.active > * {
+            animation: staggerFadeIn 0.6s ease forwards;
+        }
+
+        .stagger-children.active > *:nth-child(1) { animation-delay: 0.1s; }
+        .stagger-children.active > *:nth-child(2) { animation-delay: 0.2s; }
+        .stagger-children.active > *:nth-child(3) { animation-delay: 0.3s; }
+        .stagger-children.active > *:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes staggerFadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Product Focus Section */
+        .product-focus {
+            background: white;
+            padding: 6rem 5%;
+        }
+
+        .focus-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .focus-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+            position: relative;
+            display: inline-block;
+        }
+
+        .focus-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 3px;
+            background: var(--avocado-green);
+            transition: width 0.8s ease;
+        }
+
+        .focus-title.active::after {
+            width: 100px;
+        }
+
+        .focus-subtitle {
+            color: var(--avocado-green);
+            font-weight: 600;
+            font-size: 1.25rem;
+            margin-bottom: 3rem;
+        }
+
+        .product-showcase {
+            background: var(--avocado-pale);
+            border-radius: 40px;
+            padding: 4rem;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .product-showcase::before {
+            content: 'AVOCADO ONLY';
+            position: absolute;
+            top: 20px;
+            right: -50px;
+            background: var(--avocado-green);
+            color: white;
+            padding: 0.5rem 4rem;
+            transform: rotate(45deg);
+            font-weight: 600;
+            font-size: 0.875rem;
+            animation: ribbonPulse 2s infinite;
+        }
+
+        @keyframes ribbonPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(107, 142, 35, 0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(107, 142, 35, 0.2); }
+        }
+
+        .product-showcase:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(107, 142, 35, 0.15);
+        }
+
+        .showcase-image {
+            max-width: 500px;
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+            transition: all 0.5s ease;
+            animation: productBob 3s ease-in-out infinite;
+        }
+
+        @keyframes productBob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .product-showcase:hover .showcase-image {
+            transform: scale(1.05);
+            animation-play-state: paused;
+        }
+        .product-price {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6B8E23;
+            margin-bottom: 1rem;
+        }
+
+        .showcase-details h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .product-showcase:hover .showcase-details h3 {
+            color: var(--avocado-green);
+        }
+
+        .showcase-details p {
+            color: var(--text-light);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .nutrition-badges {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .nutrition-badge {
+            background: white;
+            padding: 1.5rem 2rem;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nutrition-badge:hover {
+            transform: translateY(-10px) scale(1.1);
+            box-shadow: 0 15px 30px rgba(107, 142, 35, 0.2);
+            background: var(--avocado-green);
+        }
+
+        .nutrition-badge:hover .value,
+        .nutrition-badge:hover .label {
+            color: white;
+        }
+
+        .nutrition-badge .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--avocado-green);
+            display: block;
+            transition: color 0.3s ease;
+        }
+
+        .nutrition-badge .label {
+            font-size: 0.875rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+
+        /* Why Avocado Section */
+        .why-avocado {
+            background: var(--avocado-dark);
+            color: white;
+            padding: 6rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .why-avocado::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 500px;
+            height: 500px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: floatBubble 25s infinite ease-in-out;
+        }
+
+        .why-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .why-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .why-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-header p {
+            opacity: 0.9;
+            font-size: 1.125rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .benefit-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 2.5rem;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .benefit-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .benefit-card:hover::before {
+            left: 100%;
+        }
+
+        .benefit-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            background: rgba(255,255,255,0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .benefit-icon {
+            width: 70px;
+            height: 70px;
+            background: var(--avocado-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            color: var(--avocado-dark);
+            transition: all 0.3s ease;
+            animation: iconPulse 2s infinite;
+        }
+
+        .benefit-card:hover .benefit-icon {
+            transform: scale(1.2) rotate(360deg);
+            animation: none;
+        }
+
+        @keyframes iconPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(154, 205, 50, 0.6); }
+            50% { box-shadow: 0 0 0 15px rgba(154, 205, 50, 0); }
+        }
+
+        .benefit-card h3 {
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        .benefit-card:hover h3 {
+            transform: scale(1.1);
+        }
+
+        .benefit-card p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Purity Section */
+        .purity {
+            background: var(--avocado-cream);
+            padding: 6rem 5%;
+            text-align: center;
+            position: relative;
+        }
+
+        .purity-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .purity h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-dark);
+        }
+
+        .ingredients-list {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .ingredient {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .ingredient:hover {
+            transform: translateY(-10px);
+        }
+
+        .ingredient-icon {
+            width: 90px;
+            height: 90px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--avocado-green);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .ingredient:hover .ingredient-icon {
+            background: var(--avocado-green);
+            color: white;
+            transform: scale(1.1) rotate(10deg);
+            box-shadow: 0 10px 30px rgba(107, 142, 35, 0.3);
+        }
+
+        .ingredient span {
+            font-weight: 600;
+            color: var(--text-dark);
+            transition: color 0.3s ease;
+        }
+
+        .ingredient:hover span {
+            color: var(--avocado-green);
+        }
+
+        .no-list {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            margin-top: 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            display: inline-block;
+        }
+
+        .no-item {
+            color: var(--avocado-green);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin: 0.5rem 0;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: slideInX 0.5s ease forwards;
+        }
+
+        .no-list.active .no-item:nth-child(1) { animation-delay: 0.1s; }
+        .no-list.active .no-item:nth-child(2) { animation-delay: 0.2s; }
+        .no-list.active .no-item:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes slideInX {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* CTA Section with Wave */
+        .cta {
+            background: var(--avocado-green);
+            color: white;
+            text-align: center;
+            padding: 6rem 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -10%;
+            width: 400px;
+            height: 400px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: floatBubble 20s infinite ease-in-out;
+        }
+
+        .cta::after {
+            content: '';
+            position: absolute;
+            bottom: -30%;
+            right: -10%;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: floatBubble 15s infinite ease-in-out reverse;
+        }
+
+        .cta-container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s backwards;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--avocado-green);
+            padding: 1.2rem 3.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease 0.4s backwards;
+        }
+
+        .btn-white::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: var(--avocado-green);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+            z-index: -1;
+        }
+
+        .btn-white:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .btn-white:hover {
+            color: white;
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--text-dark);
+            color: white;
+            padding: 4rem 5% 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: footerGlow 3s infinite;
+        }
+
+        @keyframes footerGlow {
+            0%, 100% { text-shadow: 0 0 5px rgba(154, 205, 50, 0); }
+            50% { text-shadow: 0 0 20px rgba(154, 205, 50, 0.5); }
+        }
+
+        .footer-tagline {
+            color: var(--avocado-light);
+            margin-bottom: 2rem;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .footer-copy {
+            opacity: 0.6;
+            font-size: 0.875rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        /* Toast Animation */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--avocado-dark);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            transform: translateX(400px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .toast i {
+            animation: checkRotate 0.5s ease;
+        }
+
+        @keyframes checkRotate {
+            from { transform: rotate(-180deg) scale(0); }
+            to { transform: rotate(0) scale(1); }
+        }
+
+        /* Particle Effects */
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--avocado-light);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 10s infinite linear;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu { display: block; }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-content h1 { font-size: 2.5rem; }
+            .hero-content h1 span { font-size: 1.8rem; }
+            .focus-title { font-size: 2rem; }
+            
+            .float-el { display: none; }
+            
+            .nutrition-badges {
+                gap: 1rem;
+            }
+            
+            .nutrition-badge {
+                padding: 1rem;
+            }
+        }
+
+        /* Smooth scroll behavior for older browsers */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <div class="loader" id="loader">
+        <div class="loader-avocado"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="#" class="logo">
+                <div class="logo-icon">
+                    <i data-lucide="leaf"></i>
+                </div>
+                AvoLush
+            </a>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#product">The Product</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#ingredients">Ingredients</a></li>
+            </ul>
+            <button class="order-btn" onclick="showToast('Coming soon! 🥑')">Buy Now</button>
+            <button class="mobile-menu" onclick="toggleMenu()">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-elements">
+            <div class="float-el">
+                <i data-lucide="heart" size="16"></i> 100% Natural
+            </div>
+            <div class="float-el">
+                <i data-lucide="star" size="16"></i> Best Seller
+            </div>
+        </div>
+        
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">🥑 Avocado Yogurt Only</div>
+                <h1>AvoLush <span>Pure Avocado Yogurt</span></h1>
+                <p class="hero-subtitle">
+                    We don't do dozen flavors. We do one thing perfectly: creamy, natural avocado yogurt.
+                    Made with 100% fresh Hass avocados and premium yogurt. Nothing else.
+                </p>
+                <button class="btn-primary" onclick="scrollToSection('product')">
+                    See The Product
+                    <i data-lucide="arrow-down"></i>
+                </button>
+            </div>
+            <div class="hero-image">
+                <img src="doo.png" alt="AvoLush Avocado Yogurt">
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Focus Section -->
+    <section class="product-focus" id="product">
+        <div class="focus-container">
+            <h2 class="focus-title reveal">One Product. Perfected.</h2>
+            <p class="focus-subtitle reveal">Avocado Yogurt Only • No Compromises</p>
+            
+            <div class="product-showcase reveal-scale">
+                <img src="doo.png" alt="AvoLush Cup" class="showcase-image">
+                <div class="showcase-details">
+                    <h3>AvoLush Original</h3>
+                    <div class="product-price">LKR 150</div>
+                    <p>The only avocado yogurt you'll ever need. We spent years perfecting the ratio of creamy avocado to smooth yogurt. The result is a rich, velvety texture with the natural green color from real avocados.</p>
+
+                    <div class="nutrition-badges stagger-children">
+                        <div class="nutrition-badge" onclick="animateBadge(this)">
+                            <span class="value">100%</span>
+                            <span class="label">Natural</span>
+                        </div>
+                        <div class="nutrition-badge" onclick="animateBadge(this)">
+                            <span class="value">0</span>
+                            <span class="label">Artificial Colors</span>
+                        </div>
+                        <div class="nutrition-badge" onclick="animateBadge(this)">
+                            <span class="value">15g</span>
+                            <span class="label">Protein</span>
+                        </div>
+                        <div class="nutrition-badge" onclick="animateBadge(this)">
+                            <span class="value">280</span>
+                            <span class="label">Calories</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p style="color: var(--text-light); font-style: italic; margin-top: 2rem;" class="reveal">
+                "We don't make strawberry. We don't make vanilla. We make avocado yogurt, and we make it better than anyone else."
+            </p>
+        </div>
+    </section>
+
+    <!-- Why Avocado Section -->
+    <section class="why-avocado" id="benefits">
+        <div class="why-container">
+            <div class="why-header reveal">
+                <h2>Why Avocado Yogurt?</h2>
+                <p>The perfect marriage of creamy avocados and probiotic-rich yogurt</p>
+            </div>
+            
+            <div class="benefits-grid stagger-children">
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i data-lucide="heart" size="28"></i>
+                    </div>
+                    <h3>Heart Healthy</h3>
+                    <p>Avocados are packed with monounsaturated fats that support cardiovascular health and help maintain healthy cholesterol levels.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i data-lucide="zap" size="28"></i>
+                    </div>
+                    <h3>Natural Energy</h3>
+                    <p>The combination of healthy fats from avocados and protein from yogurt provides sustained energy without the crash.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i data-lucide="shield" size="28"></i>
+                    </div>
+                    <h3>Gut Health</h3>
+                    <p>Probiotic-rich yogurt combined with avocado fiber creates the perfect environment for a healthy digestive system.</p>
+                </div>
+
+                <div class="benefit-card">
+                    <div class="benefit-icon">
+                        <i data-lucide="sparkles" size="28"></i>
+                    </div>
+                    <h3>Glowing Skin</h3>
+                    <p>Avocados are rich in vitamins E and C, promoting collagen production and skin elasticity from the inside out.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Purity Section -->
+    <section class="purity" id="ingredients">
+        <div class="purity-container">
+            <h2 class="reveal">Pure & Simple</h2>
+            <p style="color: var(--text-light); margin-bottom: 2rem;" class="reveal">If it's not avocado or yogurt, it's not in our cup.</p>
+            
+            <div class="ingredients-list stagger-children">
+                <div class="ingredient" onclick="bounceElement(this)">
+                    <div class="ingredient-icon">
+                        <i data-lucide="check" size="32"></i>
+                    </div>
+                    <span>Fresh Hass Avocados</span>
+                </div>
+                <div class="ingredient" onclick="bounceElement(this)">
+                    <div class="ingredient-icon">
+                        <i data-lucide="check" size="32"></i>
+                    </div>
+                    <span>Creamy Natural Yogurt</span>
+                </div>
+                <div class="ingredient" onclick="bounceElement(this)">
+                    <div class="ingredient-icon">
+                        <i data-lucide="check" size="32"></i>
+                    </div>
+                    <span>Natural Probiotics</span>
+                </div>
+                <div class="ingredient" onclick="bounceElement(this)">
+                    <div class="ingredient-icon">
+                        <i data-lucide="check" size="32"></i>
+                    </div>
+                    <span>Real Fruit</span>
+                </div>
+            </div>
+
+            <div class="no-list reveal" id="noList">
+                <div class="no-item">🚫 NO Artificial Colors</div>
+                <div class="no-item">🚫 NO Preservatives</div>
+                <div class="no-item">🚫 NO Added Sugar</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta">
+        <div class="cta-container">
+            <h2>Avocado Yogurt Only.<br>Excellence Guaranteed.</h2>
+            <p>Try the creamiest, healthiest avocado yogurt on the market.</p>
+            <button class="btn-white" onclick="showToast('Order system opening soon! 🛒')">
+                Get AvoLush Now
+            </button>
+        </div>
+        
+        <!-- Particles -->
+        <div class="particle" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 3s;"></div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-logo reveal">
+            <i data-lucide="leaf"></i>
+            AvoLush
+        </div>
+        <div class="footer-tagline">Avocado Yogurt Only • Eat Clean. Feel Lush.</div>
+        <p class="footer-copy">© 2026 AvoLush. All rights reserved. We only make avocado yogurt.</p>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i data-lucide="check-circle" size="20"></i>
+        <span id="toastMsg">Coming soon!</span>
+    </div>
+
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        // Hide loader after page loads
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('hidden');
+            }, 1500);
+        });
+
+        // Show toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Smooth scroll to section
+        function scrollToSection(sectionId) {
+            document.getElementById(sectionId).scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Bounce animation for ingredients
+        function bounceElement(el) {
+            el.style.animation = 'none';
+            setTimeout(() => {
+                el.style.animation = 'bounce 0.6s ease';
+            }, 10);
+            showToast('Premium ingredient! 🥑');
+        }
+
+        // Animate nutrition badges
+        function animateBadge(el) {
+            el.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                el.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    el.style.transform = 'scale(1)';
+                }, 150);
+            }, 100);
+        }
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    
+                    // Special handling for no-list items
+                    if (entry.target.id === 'noList') {
+                        entry.target.classList.add('active');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all reveal elements
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children, .no-list').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.hero-image img');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.05}px) rotate(${scrolled * 0.01}deg)`;
+            }
+        });
+
+        // Mobile menu toggle (placeholder)
+        function toggleMenu() {
+            showToast('Mobile menu - use scroll navigation 📱');
+        }
+
+        // Add random floating particles on click
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('a')) return;
+            
+            const particle = document.createElement('div');
+            particle.style.position = 'fixed';
+            particle.style.left = e.clientX + 'px';
+            particle.style.top = e.clientY + 'px';
+            particle.style.width = '20px';
+            particle.style.height = '20px';
+            particle.style.background = 'var(--avocado-light)';
+            particle.style.borderRadius = '50%';
+            particle.style.pointerEvents = 'none';
+            particle.style.zIndex = '9999';
+            particle.style.animation = 'particleBurst 0.6s ease-out forwards';
+            
+            document.body.appendChild(particle);
+            
+            setTimeout(() => particle.remove(), 600);
+        });
+
+        // Add burst animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes particleBurst {
+                0% { transform: scale(1); opacity: 1; }
+                100% { transform: scale(0) translate(var(--tx, 50px), var(--ty, -50px)); opacity: 0; }
+            }
+            @keyframes bounce {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Set random directions for click particles
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('button') || e.target.closest('a')) return;
+            
+            const particles = document.querySelectorAll('.particle');
+            particles.forEach(p => {
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = 50 + Math.random() * 50;
+                p.style.setProperty('--tx', Math.cos(angle) * velocity + 'px');
+                p.style.setProperty('--ty', Math.sin(angle) * velocity + 'px');
+            });
+        });
+    </script>
+</body>
+</html>
